@@ -1,0 +1,40 @@
+<!-- Polymer dependencies -->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-query.html">
+<link rel="import" href="../../web-components/pwa-15-summary/pwa-15-summary.html">
+<link rel="import" href="../../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../../bower_components/app-storage/app-indexeddb-mirror/app-indexeddb-mirror.html">
+
+<dom-module id="home-page">
+  <template>
+    <style is="custom-style">
+      :host {
+        display: block;
+        padding: 20px;
+      }
+    </style>
+
+    <firebase-query
+      path="/article_list"
+      data="{{articleListLive}}">
+    </firebase-query>
+    
+    <app-indexeddb-mirror
+      key="articleList"
+      data="{{articleListLive}}"
+      persisted-data="{{articleList}}">
+    </app-indexeddb-mirror>
+    
+    <h1>Article List</h1>
+    <template is="dom-repeat" items="{{articleList}}">
+      <pwa-15-summary article-id="[[item.$key]]"></pwa-15-summary>
+    </template>
+    
+  </template>
+
+  <script>
+    Polymer({
+      is: 'home-page',
+    });
+  </script>
+</dom-module>

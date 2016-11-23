@@ -1,0 +1,64 @@
+<!-- Polymer dependencies -->
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/polymerfire/firebase-document.html">
+<link rel="import" href="../../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/app-storage/app-indexeddb-mirror/app-indexeddb-mirror.html">
+
+<dom-module id="pwa-15-summary">
+  <template>
+    <style is="custom-style">
+      :host {
+        display: block;
+        
+      }
+      
+      paper-material {
+        padding: 20px;
+      }
+      
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+    </style>
+
+    <firebase-document
+      id="query"
+      path="/articles/[[articleId]]/title"
+      data="{{titleLive}}">
+    </firebase-document>
+    
+    <app-indexeddb-mirror
+      key="articleSummary-[[articleId]]"
+      data="{{titleLive}}"
+      persisted-data="{{title}}">
+    </app-indexeddb-mirror>
+    
+    <template is="dom-if" if="[[title]]">
+      <paper-material>
+        <h2>
+          [[title]]
+        </h2>
+        
+        <a href="/view/[[articleId]]">
+          <paper-button raised>Read</paper-button>  
+        </a>
+        <template is="dom-if" if="[[user]]">
+          <a href="/edit/[[articleId]]">
+            <paper-button raised>Edit</paper-button>  
+          </a>  
+        </template>
+      </paper-material>  
+    </template>
+    
+    
+    
+  </template>
+
+  <script>
+    Polymer({
+      is: 'pwa-15-summary',
+    });
+  </script>
+</dom-module>
